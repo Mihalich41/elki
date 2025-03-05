@@ -47,9 +47,12 @@
             priceListElement.innerHTML = ''; // Очистить предыдущие данные
 
             prices.forEach(item => {
-                const priceItem = document.createElement('div');
-                priceItem.innerText = `${item.type} - Цена: ${item.price}, Количество: ${item.quantity}`;
-                priceListElement.appendChild(priceItem);
+                // Добавляем только те элементы, где 'sell_true' равен true
+                if (item.sell_true) {
+                    const priceItem = document.createElement('div');
+                    priceItem.innerText = `Цена: ${item.price} (Количество: ${item.lots})`;
+                    priceListElement.appendChild(priceItem);
+                }
             });
         }
 
