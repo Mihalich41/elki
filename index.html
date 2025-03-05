@@ -7,6 +7,30 @@
     <script type="text/javascript" src="form.js"></script>
     <link rel="stylesheet" href="styles.css">
     <title>Стакан цен</title>
+    <style>
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+        .price {
+            font-weight: bold;
+        }
+        .lots {
+            font-weight: normal;
+        }
+        .sell-true {
+            background-color: red;
+            color: white;
+        }
+        .sell-false {
+            background-color: green;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -48,9 +72,22 @@
 
             // Проходим по каждому элементу данных
             prices.forEach(item => {
-                if (item.sell_true) {  // Проверяем, что 'sell_true' равно True
+                if (item.sell_true !== undefined) {  // Проверяем, что 'sell_true' существует
                     const priceItem = document.createElement('div');
-                    priceItem.innerHTML = `Цена: <strong>${item.price}</strong> (Количество: <strong>${item.lots}</strong>)`;
+                    priceItem.classList.add('price-item');
+
+                    // Определяем класс в зависимости от значения 'sell_true'
+                    if (item.sell_true) {
+                        priceItem.classList.add('sell-true');
+                    } else {
+                        priceItem.classList.add('sell-false');
+                    }
+
+                    priceItem.innerHTML = `
+                        <div class="price">${item.price}</div>
+                        <div class="lots">${item.lots}</div>
+                    `;
+
                     priceListElement.appendChild(priceItem);
                 }
             });
