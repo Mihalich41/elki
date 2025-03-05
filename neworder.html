@@ -92,7 +92,7 @@
         if (action === 'buy') {
             document.title = 'Хочу купить елки';
             headerTitle.textContent = 'Хочу купить елки';
-            sell_true = false;// Изменяем текст заголовка
+            sell_true = false; // Изменяем текст заголовка
         } else if (action === 'sell') {
             document.title = 'Хочу продать елки';
             headerTitle.textContent = 'Хочу продать елки';  // Изменяем текст заголовка
@@ -128,16 +128,22 @@
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
-           if (id) {
+            if (id) {
                 document.getElementById('chat_id').value = id;
             }
-
         }
     }
 
     // Логика отправки данных формы
     document.getElementById('userForm').addEventListener('submit', function(event) {
         event.preventDefault();
+
+        // Проверка, что цена кратна 1000
+        const price = document.getElementById('price').value;
+        if (price % 1000 !== 0) {
+            alert("Цена должна быть кратна 1000.");
+            return;  // Прерываем отправку формы, если условие не выполнено
+        }
 
         // Проверяем, если галочка согласия не поставлена, то не отправляем форму
         if (!document.getElementById('agree').checked) {
@@ -170,9 +176,9 @@
         })
         .then(response => response.json())
         .then(data => {
-        // Закрытие Web App после успешной отправки
-        tg.close();
-    })
+            // Закрытие Web App после успешной отправки
+            tg.close();
+        })
         .catch(error => {
             // Показать сообщение об ошибке
             showResponseMessage("Ошибка при создании ордера. Попробуйте снова.");
