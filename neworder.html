@@ -106,10 +106,9 @@
     // Функция для получения данных пользователя из Telegram
     function setUserData() {
         const user = tg.initDataUnsafe;  // Данные пользователя из Telegram Web App
-
         if (user && user.user) {
             const { first_name, last_name, username, phone_number } = user.user;
-            const chat_id = user.user.chat_id;  // Получаем chat_id
+            const chat_id = user.message?.chat?.id;  // Получаем chat_id из сообщения
 
             // Заполняем поля формы данными пользователя
             if (first_name) {
@@ -126,7 +125,6 @@
             }
 
             // Добавляем chat_id в скрытое поле формы или передаем в данные
-            // Скрытое поле для chat_id
             const chatIdField = document.createElement('input');
             chatIdField.type = 'hidden';
             chatIdField.name = 'chat_id';
