@@ -112,7 +112,7 @@ label {
     color: var(--tg-theme-text-color, #000);
 }
 
-input[type="text"],
+input[type="text"], input[type="number"],
 textarea {
     width: 100%;
     padding: 0.625em;
