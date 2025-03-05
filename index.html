@@ -46,11 +46,11 @@
             const priceListElement = document.getElementById('price-list');
             priceListElement.innerHTML = ''; // Очистить предыдущие данные
 
+            // Проходим по каждому элементу данных
             prices.forEach(item => {
-                // Добавляем только те элементы, где 'sell_true' равен true
-                if (item.sell_true) {
+                if (item.sell_true) {  // Проверяем, что 'sell_true' равно True
                     const priceItem = document.createElement('div');
-                    priceItem.innerText = `Цена: ${item.price} (Количество: ${item.lots})`;
+                    priceItem.innerHTML = `Цена: <strong>${item.price}</strong> (Количество: <strong>${item.lots}</strong>)`;
                     priceListElement.appendChild(priceItem);
                 }
             });
