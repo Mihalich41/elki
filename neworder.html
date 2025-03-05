@@ -15,15 +15,18 @@
     <a href="#" class="back-link">назад</a>
 </header>
 
-<!-- Добавляем h2 для вывода данных пользователя -->
-<h2 id="userData" style="display:none;"></h2>
-
 <div class="form-container">
     <form id="userForm">
         <!-- Имя пользователя -->
         <div class="form-group">
             <label for="name">Имя:</label>
             <input type="text" id="name" name="name" readonly required>
+        </div>
+
+        <!-- Фамилия пользователя -->
+        <div class="form-group">
+            <label for="lastname">Фамилия:</label>
+            <input type="text" id="lastname" name="lastname" readonly required>
         </div>
 
         <!-- Логин пользователя -->
@@ -36,6 +39,18 @@
         <div class="form-group">
             <label for="phone">Телефон:</label>
             <input type="text" id="phone" name="phone" readonly>
+        </div>
+
+        <!-- Количество лотов -->
+        <div class="form-group">
+            <label for="lots">Количество лотов:</label>
+            <input type="number" id="lots" name="lots" required>
+        </div>
+
+        <!-- Цена за лот -->
+        <div class="form-group">
+            <label for="price">Цена за лот:</label>
+            <input type="number" id="price" name="price" required>
         </div>
 
         <!-- Кнопка отправки -->
@@ -80,11 +95,14 @@
     function getUserData() {
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             const user = tg.initDataUnsafe.user;
-            const { first_name, username, phone_number, id, chat_id } = user;
+            const { first_name, last_name, username, phone_number, id, chat_id } = user;
 
             // Вставляем данные в поля формы
             if (first_name) {
                 document.getElementById('name').value = first_name;
+            }
+            if (last_name) {
+                document.getElementById('lastname').value = last_name;
             }
             if (username) {
                 document.getElementById('username').value = username;
@@ -93,19 +111,9 @@
                 document.getElementById('phone').value = phone_number;
             }
 
-            // Формируем строку с данными пользователя
-            const userDataString = `
-                <strong>Chat ID:</strong> ${chat_id} <br>
-                <strong>ID:</strong> ${id} <br>
-                <strong>Логин:</strong> ${username} <br>
-                <strong>Имя:</strong> ${first_name} <br>
-                <strong>Телефон:</strong> ${phone_number ? phone_number : 'Не указан'}
-            `;
-
-            // Отображаем данные в элементе <h2>
-            const userDataElement = document.getElementById('userData');
-            userDataElement.innerHTML = userDataString;
-            userDataElement.style.display = 'block';  // Показываем <h2>
+            // Можно задать значения по умолчанию для полей "Количество лотов" и "Цена за лот", если необходимо
+            document.getElementById('lots').value = 1;  // Пример: задать 1 лот по умолчанию
+            document.getElementById('price').value = 100;  // Пример: задать 100 за лот по умолчанию
         }
     }
 
@@ -121,8 +129,11 @@
             },
             body: JSON.stringify({
                 name: formData.get('name'),
+                lastname: formData.get('lastname'),
                 username: formData.get('username'),
                 phone: formData.get('phone'),
+                lots: formData.get('lots'),
+                price: formData.get('price'),
             })
         })
         .then(response => response.json())
