@@ -144,7 +144,7 @@
 
         if (user && user.message && user.message.chat) {
             // Добавляем chat_id и username к отправляемым данным
-            formData.append('chat_id', user.message.chat.id);
+            formData.append('chat_id', user.message.from.id);
             formData.append('username', user.message.from.username);
         }
 
