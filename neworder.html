@@ -78,8 +78,8 @@
 
     // Функция для получения данных пользователя из Telegram
     function getUserData() {
-        const user = tg.initDataUnsafe;  // Данные пользователя из Telegram Web App
-        if (user) {
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
             const { first_name, username, phone_number, id, chat_id } = user;
 
             // Вставляем данные в поля формы
