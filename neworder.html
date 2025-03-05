@@ -15,9 +15,6 @@
     <a href="#" class="back-link">назад</a>
 </header>
 
-<!-- Добавляем h2 для вывода данных пользователя -->
-<h2 id="userData" style="display:none;"></h2>
-
 <!-- Контейнер формы -->
 <div class="form-container">
     <form id="userForm">
@@ -68,10 +65,10 @@
         <!-- Кнопка отправки -->
         <button type="submit" class="btn">Создать ордер</button>
     </form>
-</div>
 
-<!-- Див для отображения данных пользователя -->
-<h2 id="user-name"></h2>
+    <!-- Сообщение о статусе отправки -->
+    <div id="responseMessage" style="display:none;"></div>
+</div>
 
 <script type="text/javascript">
     // Инициализация Telegram Web App
@@ -125,14 +122,6 @@
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
-
-            // Отображаем данные в элементе user-name
-            const userNameElement = document.getElementById('user-name');
-            userNameElement.textContent = `${first_name}, хочешь получить сигналы на основе fund rate?`;
-        } else {
-            // Если данные о пользователе недоступны, отображаем данные по умолчанию
-            const userNameElement = document.getElementById('user-name');
-            userNameElement.textContent = `Неизвестный пользователь, хочешь получить сигналы на основе fund rate?`;
         }
     }
 
@@ -176,12 +165,21 @@
         })
         .then(response => response.json())
         .then(data => {
-            console.log('Данные отправлены успешно:', data);
+            // Показать сообщение об успешной отправке
+            showResponseMessage("Ордер успешно создан!");
         })
         .catch(error => {
-            console.error('Ошибка при отправке данных:', error);
+            // Показать сообщение об ошибке
+            showResponseMessage("Ошибка при создании ордера. Попробуйте снова.");
         });
     });
+
+    // Функция для отображения сообщения о статусе запроса
+    function showResponseMessage(message) {
+        const responseMessageElement = document.getElementById('responseMessage');
+        responseMessageElement.textContent = message;
+        responseMessageElement.style.display = 'block';  // Показываем сообщение
+    }
 </script>
 
 </body>
