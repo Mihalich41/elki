@@ -15,6 +15,7 @@
             margin: 5px 0;
             border-radius: 5px;
             font-size: 18px;
+            position: relative;
         }
         .price {
             font-weight: bold;
@@ -29,6 +30,14 @@
         .sell-false {
             background-color: green;
             color: white;
+        }
+        .background-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            border-radius: 5px;
+            z-index: -1;
         }
     </style>
 </head>
@@ -70,6 +79,9 @@
             const priceListElement = document.getElementById('price-list');
             priceListElement.innerHTML = ''; // Очистить предыдущие данные
 
+            // Находим максимальное количество лотов
+            const maxLots = Math.max(...prices.map(item => item.lots));
+
             // Проходим по каждому элементу данных
             prices.forEach(item => {
                 if (item.sell_true !== undefined) {  // Проверяем, что 'sell_true' существует
@@ -83,6 +95,16 @@
                         priceItem.classList.add('sell-false');
                     }
 
+                    // Вычисляем процент заполненности фона
+                    const lotPercentage = (item.lots / maxLots) * 100;
+
+                    // Добавляем фон с прогресс-баром
+                    const backgroundBar = document.createElement('div');
+                    backgroundBar.classList.add('background-bar');
+                    backgroundBar.style.width = `${lotPercentage}%`;
+                    priceItem.appendChild(backgroundBar);
+
+                    // Заполняем данные
                     priceItem.innerHTML = `
                         <div class="price">${item.price}</div>
                         <div class="lots">${item.lots}</div>
