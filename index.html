@@ -26,6 +26,25 @@
             display: none;
         }
 
+        .price-list-header {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            margin: 20px;
+        }
+
+        .price-list-header .price-header {
+            text-align: left;
+        }
+
+        .price-list-header .lots-header {
+            text-align: right;
+        }
+
         .price-item {
             display: flex;
             justify-content: space-between;
@@ -91,6 +110,12 @@
     <div id="loading" class="loading">
         <div class="spinner"></div>
         Загрузка данных...
+    </div>
+
+    <!-- Добавим шапку с заголовками для цен и количества лотов -->
+    <div class="price-list-header">
+        <div class="price-header">Цена в рублях</div>
+        <div class="lots-header">Количество лотов</div>
     </div>
 
     <div id="price-list"></div> <!-- Здесь будет выводиться информация -->
