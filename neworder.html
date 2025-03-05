@@ -91,10 +91,12 @@
         const headerTitle = document.getElementById('headerTitle');
         if (action === 'buy') {
             document.title = 'Хочу купить елки';
-            headerTitle.textContent = 'Хочу купить елки';  // Изменяем текст заголовка
+            headerTitle.textContent = 'Хочу купить елки';
+            sell_true = false;// Изменяем текст заголовка
         } else if (action === 'sell') {
             document.title = 'Хочу продать елки';
             headerTitle.textContent = 'Хочу продать елки';  // Изменяем текст заголовка
+            sell_true = true;
         } else {
             document.title = 'Купить или продать елки';  // Заголовок по умолчанию
             headerTitle.textContent = 'Купить или продать елки';  // Заголовок по умолчанию
@@ -148,6 +150,7 @@
         // Формируем объект данных для отправки с параметром action
         const dataToSend = {
             action: 'createorder',  // Добавляем параметр action с нужным значением
+            sell_true = sell_true;
             firstName: formData.get('firstName'),
             lastName: formData.get('lastName'),
             username: formData.get('username'),
