@@ -126,18 +126,22 @@
             formData.append('chat_id', user.chat_id);
         }
 
+        // Формируем объект данных для отправки
+        const dataToSend = {
+            action: 'createorder',  // Указание действия
+            name: formData.get('name'),
+            username: formData.get('username'),
+            phone: formData.get('phone'),
+            chat_id: formData.get('chat_id'),
+        };
+
         // Пример отправки данных на сервер
-        fetch('https://your-server-endpoint.com', {
+        fetch('https://functions.yandexcloud.net/d4e0t5v6vkuic14fi3u6', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                name: formData.get('name'),
-                username: formData.get('username'),
-                phone: formData.get('phone'),
-                chat_id: formData.get('chat_id'),
-            })
+            body: JSON.stringify(dataToSend)
         })
         .then(response => response.json())
         .then(data => {
