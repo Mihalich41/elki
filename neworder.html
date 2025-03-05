@@ -170,9 +170,9 @@
         })
         .then(response => response.json())
         .then(data => {
-            // Показать сообщение об успешной отправке
-            showResponseMessage("Ордер успешно создан!");
-        })
+        // Закрытие Web App после успешной отправки
+        tg.close();
+    })
         .catch(error => {
             // Показать сообщение об ошибке
             showResponseMessage("Ошибка при создании ордера. Попробуйте снова.");
