@@ -1,0 +1,181 @@
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    margin: 0;
+    padding: 1.25em;
+    background-color: var(--tg-theme-bg-color, #fff);
+    color: var(--tg-theme-text-color, #000);
+    font-size: 18px; text-align: center;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2em;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 1.5em;  /* 24px */
+    color: var(--tg-theme-link-color, #2481cc);
+}
+
+a, .back-link {
+    color: var(--tg-theme-link-color, #2481cc);
+    text-decoration: none;
+}
+
+.back-link {
+    display: none;
+}
+
+.panel {
+    display: none;
+}
+
+h1 {
+    font-size: 1.6em; 
+    margin-bottom: 0.938em;
+    color: var(--tg-theme-text-color, #000);
+}
+
+h2 {
+    font-size: 1.4em;  /* 18px */
+    margin-bottom: 0.938em;
+    color: var(--tg-theme-link-color, #2481cc);
+    font-weight: bold;
+}
+
+h2.hint {
+    color: var(--tg-theme-hint-color, #999);
+}
+
+h2.price { font-weight: bold;}
+
+h3 {
+    font-size: 1.2em;  /* 20px */
+    margin-bottom: 0.625em;
+    font-weight: bold;
+}
+
+p {
+    font-size: 1.2em;
+    line-height: 1.5;
+    color: var(--tg-theme-text-color, #000);
+}
+
+button {
+    background-color: var(--tg-theme-button-color, #2481cc); /* Цвет фона */
+    color: var(--tg-theme-button-text-color, #ffffff); /* Цвет текста */
+    border: none;
+    margin: 0 auto;
+    border-radius: 1em;
+    padding: 0.5em 1em;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    max-width: 100%;
+    min-width: 10em;  /* 200px */
+    transition: opacity 0.2s;
+
+    /* Обводка текста с использованием text-shadow */
+    text-shadow: 1px 1px 1px rgba(var(--tg-theme-bg-color-rgb), 0.5), 
+    -1px -1px 1px rgba(var(--tg-theme-bg-color-rgb), 0.5),
+    1px -1px 1px rgba(var(--tg-theme-bg-color-rgb), 0.5), 
+    -1px 1px 1px rgba(var(--tg-theme-bg-color-rgb), 0.5);
+}
+
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+    opacity: 0.9;
+}
+
+.form-panel {
+    background-color: var(--tg-theme-bg-color, #fff);
+    padding: 1.25em;
+    border-radius: 0.625em;
+}
+
+form {
+    margin-top: 1.25em;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.313em;
+    color: var(--tg-theme-text-color, #000);
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 0.625em;
+    margin-bottom: 0.938em;
+    border: 1px solid var(--tg-theme-hint-color, #999);
+    border-radius: 0.5em;
+    background-color: var(--tg-theme-secondary-bg-color, #f0f0f0);
+    color: var(--tg-theme-text-color, #000);
+    box-sizing: border-box;
+}
+
+textarea {
+    height: 6.25em;  /* 100px */
+    resize: vertical;
+}
+
+.hint {
+    color: var(--tg-theme-hint-color, #999);
+    font-size: 0.875em;  /* 14px */
+    margin-top: -0.625em;
+    margin-bottom: 0.938em;
+}
+
+.success {
+    color: #4CAF50;
+}
+
+.error {
+    color: #f44336;
+}
+
+button.div1,
+button.div2,
+button.div3,
+button.div4,
+button.div5,
+button.div6,
+button.div7,
+button.div8,
+button.div9,
+button.div10 {
+    background-color: var(--tg-theme-button-color, #2481cc);
+}
+
+button.purchase {
+    background-color: var(--tg-theme-button-color, #2481cc);
+}
+
+button.form {
+    background-color: var(--tg-theme-button-color, #2481cc);
+}
+
+
+/* Стиль для параграфа с большим эмодзи слева */
+p.emoji {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    text-align: left;
+}
+
+p.emoji .emoji {
+    font-size: 3.5em;
+    line-height: 1;
+    padding: 0 0.5em;
+} 
