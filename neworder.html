@@ -35,6 +35,10 @@
             <label for="username">Логин:</label>
             <input type="text" id="username" name="username" readonly>
         </div>
+        <div class="form-group" style="display:none;">
+            <label for="chat_id">chat id:</label>
+            <input type="text" id="chat_id" name="chat_id" readonly>
+        </div>
 
         <!-- Телефон пользователя -->
         <div class="form-group">
@@ -107,8 +111,7 @@
     function setUserData() {
         const user = tg.initDataUnsafe;  // Данные пользователя из Telegram Web App
         if (user && user.user) {
-            const { first_name, last_name, username, phone_number } = user.user;
-            const chat_id = user.message?.chat?.id;  // Получаем chat_id из сообщения
+            const { first_name, last_name, username, phone_number, id } = user.user;
 
             // Заполняем поля формы данными пользователя
             if (first_name) {
@@ -123,13 +126,10 @@
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
+           if (id) {
+                document.getElementById('chat_id').value = id;
+            }
 
-            // Добавляем chat_id в скрытое поле формы или передаем в данные
-            const chatIdField = document.createElement('input');
-            chatIdField.type = 'hidden';
-            chatIdField.name = 'chat_id';
-            chatIdField.value = chat_id;
-            document.getElementById('userForm').appendChild(chatIdField);
         }
     }
 
