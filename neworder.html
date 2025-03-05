@@ -18,18 +18,43 @@
 <!-- Добавляем h2 для вывода данных пользователя -->
 <h2 id="userData" style="display:none;"></h2>
 
+<!-- Контейнер формы -->
 <div class="form-container">
     <form id="userForm">
         <!-- Имя пользователя -->
         <div class="form-group">
-            <label for="name">Имя:</label>
-            <input type="text" id="name" name="name" readonly required>
+            <label for="firstName">Имя:</label>
+            <input type="text" id="firstName" name="firstName" required>
         </div>
 
-        <!-- Телефон пользователя (если доступен) -->
+        <!-- Фамилия пользователя -->
+        <div class="form-group">
+            <label for="lastName">Фамилия:</label>
+            <input type="text" id="lastName" name="lastName" required>
+        </div>
+
+        <!-- Логин пользователя (скрыт от пользователя) -->
+        <div class="form-group" style="display:none;">
+            <label for="username">Логин:</label>
+            <input type="text" id="username" name="username" readonly>
+        </div>
+
+        <!-- Телефон пользователя -->
         <div class="form-group">
             <label for="phone">Телефон:</label>
-            <input type="text" id="phone" name="phone" readonly>
+            <input type="text" id="phone" name="phone">
+        </div>
+
+        <!-- Количество лотов -->
+        <div class="form-group">
+            <label for="lots">Количество лотов:</label>
+            <input type="number" id="lots" name="lots" min="1" max="200" required>
+        </div>
+
+        <!-- Цена за 1 лот в рублях -->
+        <div class="form-group">
+            <label for="price">Цена в рублях за 1 лот:</label>
+            <input type="number" id="price" name="price" min="5000" max="270000" required>
         </div>
 
         <!-- Галочка согласия с публикацией -->
@@ -44,6 +69,9 @@
         <button type="submit" class="btn">Создать ордер</button>
     </form>
 </div>
+
+<!-- Див для отображения данных пользователя -->
+<h2 id="user-name"></h2>
 
 <script type="text/javascript">
     // Инициализация Telegram Web App
@@ -75,36 +103,36 @@
     // Вызов функции при загрузке страницы
     window.onload = function () {
         setHeaderTitle();
-        getUserData();  // Вызываем функцию для загрузки данных пользователя
+        setUserData();  // Вызываем функцию для загрузки данных пользователя
     };
 
     // Функция для получения данных пользователя из Telegram
-    function getUserData() {
+    function setUserData() {
         const user = tg.initDataUnsafe;  // Данные пользователя из Telegram Web App
-        if (user) {
-            const { first_name, username, phone_number, id, chat_id } = user;
+        if (user && user.user) {
+            const { first_name, last_name, username, phone_number, chat_id } = user.user;
 
-            // Вставляем данные в поля формы
+            // Заполняем поля формы данными пользователя
             if (first_name) {
-                document.getElementById('name').value = first_name;
+                document.getElementById('firstName').value = first_name;
+            }
+            if (last_name) {
+                document.getElementById('lastName').value = last_name;
+            }
+            if (username) {
+                document.getElementById('username').value = username;  // Логин скрыт, но передается
             }
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
 
-            // Формируем строку с данными пользователя
-            const userDataString = `
-                <strong>Chat ID:</strong> ${chat_id} <br>
-                <strong>ID:</strong> ${id} <br>
-                <strong>Логин:</strong> ${username} <br>
-                <strong>Имя:</strong> ${first_name} <br>
-                <strong>Телефон:</strong> ${phone_number ? phone_number : 'Не указан'}
-            `;
-
-            // Отображаем данные в элементе <h2>
-            const userDataElement = document.getElementById('userData');
-            userDataElement.innerHTML = userDataString;
-            userDataElement.style.display = 'block';  // Показываем <h2>
+            // Отображаем данные в элементе user-name
+            const userNameElement = document.getElementById('user-name');
+            userNameElement.textContent = `${first_name}, хочешь получить сигналы на основе fund rate?`;
+        } else {
+            // Если данные о пользователе недоступны, отображаем данные по умолчанию
+            const userNameElement = document.getElementById('user-name');
+            userNameElement.textContent = `Неизвестный пользователь, хочешь получить сигналы на основе fund rate?`;
         }
     }
 
@@ -120,18 +148,21 @@
 
         const formData = new FormData(this);
         const user = tg.initDataUnsafe;
-        if (user) {
+        if (user && user.user) {
             // Добавляем логин и chat_id к отправляемым данным
-            formData.append('username', user.username);
-            formData.append('chat_id', user.chat_id);
+            formData.append('username', user.user.username);
+            formData.append('chat_id', user.user.chat_id);
         }
 
-        // Формируем объект данных для отправки
+        // Формируем объект данных для отправки с параметром action
         const dataToSend = {
-            action: 'createorder',  // Указание действия
-            name: formData.get('name'),
+            action: 'createorder',  // Добавляем параметр action с нужным значением
+            firstName: formData.get('firstName'),
+            lastName: formData.get('lastName'),
             username: formData.get('username'),
             phone: formData.get('phone'),
+            lots: formData.get('lots'),
+            price: formData.get('price'),
             chat_id: formData.get('chat_id'),
         };
 
