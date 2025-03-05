@@ -106,8 +106,9 @@
     // Функция для получения данных пользователя из Telegram
     function setUserData() {
         const user = tg.initDataUnsafe;  // Данные пользователя из Telegram Web App
-        if (user && user.user) {
-            const { first_name, last_name, username, phone_number, chat_id } = user.user;
+        if (user && user.message && user.message.chat) {
+            const { first_name, last_name, username, phone_number } = user.message.from;
+            const chat_id = user.message.chat.id;  // Получаем chat_id
 
             // Заполняем поля формы данными пользователя
             if (first_name) {
@@ -122,6 +123,9 @@
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
+
+            // Добавляем chat_id в скрытое поле формы или передаем в данные
+            document.getElementById('chat_id').value = chat_id;
         }
     }
 
@@ -137,10 +141,11 @@
 
         const formData = new FormData(this);
         const user = tg.initDataUnsafe;
-        if (user && user.user) {
-            // Добавляем логин и chat_id к отправляемым данным
-            formData.append('username', user.user.username);
-            formData.append('chat_id', user.user.chat_id);
+
+        if (user && user.message && user.message.chat) {
+            // Добавляем chat_id и username к отправляемым данным
+            formData.append('chat_id', user.message.chat.id);
+            formData.append('username', user.message.from.username);
         }
 
         // Формируем объект данных для отправки с параметром action
