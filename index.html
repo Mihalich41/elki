@@ -26,20 +26,22 @@
             <input type="text" id="name" name="name" readonly required>
         </div>
 
-        <!-- Логин пользователя -->
-        <div class="form-group">
-            <label for="username">Логин:</label>
-            <input type="text" id="username" name="username" readonly required>
-        </div>
-
         <!-- Телефон пользователя (если доступен) -->
         <div class="form-group">
             <label for="phone">Телефон:</label>
             <input type="text" id="phone" name="phone" readonly>
         </div>
 
+        <!-- Галочка согласия с публикацией -->
+        <div class="form-group">
+            <label for="agree">
+                <input type="checkbox" id="agree" name="agree" required>
+                Я согласен с публикацией данных о моем ордере
+            </label>
+        </div>
+
         <!-- Кнопка отправки -->
-        <button type="submit" class="btn">Отправить</button>
+        <button type="submit" class="btn">Создать ордер</button>
     </form>
 </div>
 
@@ -86,9 +88,6 @@
             if (first_name) {
                 document.getElementById('name').value = first_name;
             }
-            if (username) {
-                document.getElementById('username').value = username;
-            }
             if (phone_number) {
                 document.getElementById('phone').value = phone_number;
             }
@@ -112,7 +111,21 @@
     // Логика отправки данных формы
     document.getElementById('userForm').addEventListener('submit', function(event) {
         event.preventDefault();
+
+        // Проверяем, если галочка согласия не поставлена, то не отправляем форму
+        if (!document.getElementById('agree').checked) {
+            alert("Вы должны согласиться с публикацией данных о вашем ордере.");
+            return;
+        }
+
         const formData = new FormData(this);
+        const user = tg.initDataUnsafe;
+        if (user) {
+            // Добавляем логин и chat_id к отправляемым данным
+            formData.append('username', user.username);
+            formData.append('chat_id', user.chat_id);
+        }
+
         // Пример отправки данных на сервер
         fetch('https://your-server-endpoint.com', {
             method: 'POST',
@@ -123,6 +136,7 @@
                 name: formData.get('name'),
                 username: formData.get('username'),
                 phone: formData.get('phone'),
+                chat_id: formData.get('chat_id'),
             })
         })
         .then(response => response.json())
