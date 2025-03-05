@@ -56,6 +56,7 @@
         <div class="form-group">
             <label for="price">Цена в рублях за 1 лот:</label>
             <input type="number" id="price" name="price" min="5000" max="270000" required>
+            <small id="priceError" style="color: red; display: none;">Цена должна быть кратна 1000</small> <!-- Сообщение об ошибке -->
         </div>
 
         <!-- Галочка согласия с публикацией -->
@@ -140,9 +141,13 @@
 
         // Проверка, что цена кратна 1000
         const price = document.getElementById('price').value;
+        const priceError = document.getElementById('priceError');
+
         if (price % 1000 !== 0) {
-            alert("Цена должна быть кратна 1000.");
+            priceError.style.display = 'block'; // Показываем сообщение об ошибке
             return;  // Прерываем отправку формы, если условие не выполнено
+        } else {
+            priceError.style.display = 'none'; // Скрываем сообщение, если условие выполнено
         }
 
         // Проверяем, если галочка согласия не поставлена, то не отправляем форму
