@@ -46,10 +46,12 @@
 
         .sell-true {
             color: white;
+            background-color: red; /* Красный фон для продажи */
         }
 
         .sell-false {
             color: white;
+            background-color: green; /* Зеленый фон для покупки */
         }
 
         .background-bar {
@@ -59,14 +61,6 @@
             height: 100%;
             border-radius: 5px;
             z-index: -1;
-        }
-
-        .red-background {
-            background-color: red;
-        }
-
-        .green-background {
-            background-color: green;
         }
 
         .white-background {
@@ -152,18 +146,15 @@
                     // Вычисляем процент заполненности фона
                     const lotPercentage = (item.lots / maxLots) * 100;
 
-                    // Создаем два фона: один для красного/зеленого и второй для белого
+                    // Добавляем красный/зеленый фон в зависимости от 'sell_true'
                     const backgroundBar = document.createElement('div');
                     backgroundBar.classList.add('background-bar');
                     backgroundBar.style.width = `${lotPercentage}%`;
 
-                    // Добавляем красный/зеленый фон в зависимости от 'sell_true'
                     if (item.sell_true) {
-                        priceItem.classList.add('sell-true');
-                        backgroundBar.classList.add('red-background');
+                        priceItem.classList.add('sell-true');  // Применяем красный фон
                     } else {
-                        priceItem.classList.add('sell-false');
-                        backgroundBar.classList.add('green-background');
+                        priceItem.classList.add('sell-false'); // Применяем зеленый фон
                     }
 
                     // Добавляем белый фон для пустого пространства
