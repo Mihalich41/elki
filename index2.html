@@ -195,4 +195,24 @@
                     // Добавляем красный/зеленый фон в зависимости от 'sell_true'
                     if (item.sell_true) {
                         priceItem.classList.add('sell-true');  // Применяем красный фон
-               
+                    } else {
+                        priceItem.classList.add('sell-false'); // Применяем зеленый фон
+                    }
+
+                    // Заполняем данные
+                    priceItem.innerHTML = `
+                        <div class="price">${item.price}</div>
+                        <div class="lots">${item.lots}</div>
+                    `;
+
+                    priceListElement.appendChild(priceItem);
+                }
+            });
+        }
+
+        // Загружаем данные с сервера
+        loadData();
+    </script>
+
+</body>
+</html>
