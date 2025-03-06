@@ -43,9 +43,11 @@
         .price-list-header .lots-header {
             text-align: right;
         }
+
         #price-list {
             padding: 0 30px;
         }
+
         .price-item {
             display: flex;
             justify-content: space-between;
@@ -72,20 +74,6 @@
         .sell-false {
             color: white;
             background-color: green; /* Зеленый фон для покупки */
-        }
-
-        .background-bar {
-            position: absolute;
-            top: 0;
-            left: 15%; /* Отступ слева */
-            right: 15%; /* Отступ справа */
-            height: 100%;
-            border-radius: 5px;
-            z-index: -1;
-        }
-
-        .white-background {
-            background-color: white;
         }
 
         /* Анимация загрузки */
@@ -161,9 +149,6 @@
             priceListElement.innerHTML = ''; // Очистить предыдущие данные
             loadingElement.style.display = 'none'; // Скрыть индикатор загрузки
 
-            // Находим максимальное количество лотов
-            const maxLots = Math.max(...prices.map(item => item.lots || 0));
-
             // Проходим по каждому элементу данных
             prices.forEach(item => {
                 // Проверка, что количество лотов больше 0 и что данные не равны null
@@ -171,33 +156,18 @@
                     const priceItem = document.createElement('div');
                     priceItem.classList.add('price-item');
 
-                    // Вычисляем процент заполненности фона
-                    const lotPercentage = (item.lots / maxLots) * 100;
-
                     // Добавляем красный/зеленый фон в зависимости от 'sell_true'
-                    const backgroundBar = document.createElement('div');
-                    backgroundBar.classList.add('background-bar');
-                    backgroundBar.style.width = `${lotPercentage}%`;
-
                     if (item.sell_true) {
                         priceItem.classList.add('sell-true');  // Применяем красный фон
                     } else {
                         priceItem.classList.add('sell-false'); // Применяем зеленый фон
                     }
 
-                    // Добавляем белый фон для пустого пространства
-                    const whiteBar = document.createElement('div');
-                    whiteBar.classList.add('background-bar');
-                    whiteBar.style.width = `${100 - lotPercentage}%`;
-                    whiteBar.classList.add('white-background');
-
                     // Заполняем данные
                     priceItem.innerHTML = `
                         <div class="price">${item.price}</div>
                         <div class="lots">${item.lots}</div>
                     `;
-                    priceItem.appendChild(backgroundBar);
-                    priceItem.appendChild(whiteBar);
 
                     priceListElement.appendChild(priceItem);
                 }
