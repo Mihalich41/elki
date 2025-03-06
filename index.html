@@ -75,7 +75,8 @@
         .background-bar {
             position: absolute;
             top: 0;
-            left: 0;
+            left: 15%; /* Отступ слева */
+            right: 15%; /* Отступ справа */
             height: 100%;
             border-radius: 5px;
             z-index: -1;
@@ -159,11 +160,12 @@
             loadingElement.style.display = 'none'; // Скрыть индикатор загрузки
 
             // Находим максимальное количество лотов
-            const maxLots = Math.max(...prices.map(item => item.lots));
+            const maxLots = Math.max(...prices.map(item => item.lots || 0));
 
             // Проходим по каждому элементу данных
             prices.forEach(item => {
-                if (item.sell_true !== undefined) {  // Проверяем, что 'sell_true' существует
+                // Проверка, что количество лотов больше 0 и что данные не равны null
+                if (item.lots > 0) {
                     const priceItem = document.createElement('div');
                     priceItem.classList.add('price-item');
 
