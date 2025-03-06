@@ -167,7 +167,9 @@
                 const data = await response.json();
 
                 if (data.status === 'success' && data.prices) {
-                    displayPrices(data.prices);
+                    // Сортируем цены по возрастанию
+                    const sortedPrices = data.prices.sort((a, b) => a.price - b.price);
+                    displayPrices(sortedPrices);
                 } else {
                     console.error('Ошибка при получении данных');
                 }
