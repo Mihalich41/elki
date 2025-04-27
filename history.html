@@ -96,14 +96,6 @@
             text-decoration: none;
         }
 
-        .buy-button {
-            background-color: green;
-        }
-
-        .sell-button {
-            background-color: red;
-        }
-
         /* Анимация загрузки */
         .spinner {
             border: 4px solid #f3f3f3;
@@ -124,93 +116,58 @@
 <body>
 
     <h1>История покупки лотов ELKI</h1>
-    <h2>Тут опубликованы только те сделки, о которых мне сообщили</h2>
-    <div id="loading" class="loading">
-        <div class="spinner"></div>
-        Загрузка данных...
-    </div>
 
-    <!-- Добавим шапку с заголовками для цен и количества лотов -->
+    <div class="loading" id="loading">Загрузка данных...</div>
+
     <div class="price-list-header">
-        <div class="price-header">Номер сделки</div>
-        <div class="price-header">Цена </div>
-        <div class="lots-header">Количество</div>
+        <div>Номер сделки</div>
+        <div>Цена</div>
+        <div>Количество</div>
     </div>
 
-    <div id="price-list"></div> <!-- Здесь будет выводиться информация -->
+    <div id="price-list"></div>
 
-    <div class="foot-menu">
-        <p><a href="https://mihalich41.github.io/elki/index.html" class="" target="_self">На главную</a></p>
-        <p><a href="https://mihalich41.github.io/elki/about.html" class="" target="_self">О боте</a></p>
-    </div>   
-
-    <script type="text/javascript">
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-
-        // Функция для загрузки данных с вашего API (серверного)
+    <script>
         async function loadData() {
             try {
-                // Показываем индикатор загрузки
-                document.getElementById('loading').style.display = 'block';
-
                 const response = await fetch('https://functions.yandexcloud.net/d4e0t5v6vkuic14fi3u6', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        action: 'get_history_data',
-                    }),
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'get_history_data' })
                 });
 
                 const data = await response.json();
-
-                if (data.status === 'success' && data.prices) {
-                    // Сортируем цены по возрастанию
-                    const sortedPrices = data.prices.sort((a, b) => a.price - b.price);
-                    displayPrices(sortedPrices);
+                if (data.status === 'success' && Array.isArray(data.prices)) {
+                    const sorted = data.prices
+                        .filter(item => item.lots > 0)
+                        .sort((a, b) => b.order_id - a.order_id); // по убыванию order_id
+                    displayPrices(sorted);
                 } else {
-                    console.error('Ошибка при получении данных');
+                    document.getElementById('loading').innerText = 'Ошибка при получении данных';
                 }
-            } catch (error) {
-                console.error('Ошибка:', error);
+            } catch (e) {
+                document.getElementById('loading').innerText = 'Ошибка загрузки';
+                console.error(e);
             }
         }
 
-        // Функция для отображения данных
         function displayPrices(prices) {
-            const priceListElement = document.getElementById('price-list');
-            const loadingElement = document.getElementById('loading');
-            priceListElement.innerHTML = ''; // Очистить предыдущие данные
-            loadingElement.style.display = 'none'; // Скрыть индикатор загрузки
+            const list = document.getElementById('price-list');
+            document.getElementById('loading').style.display = 'none';
+            list.innerHTML = '';
 
-            // Проходим по каждому элементу данных
             prices.forEach(item => {
-                // Проверка, что количество лотов больше 0 и что данные не равны null
-                if (item.lots > 0) {
-                    const priceItem = document.createElement('div');
-                    priceItem.classList.add('price-item');
-
-                    // Добавляем красный/зеленый фон в зависимости от 'sell_true'
-                    if (item.sell_true) {
-                        priceItem.classList.add('sell-true');  // Применяем красный фон
-                    } else {
-                        priceItem.classList.add('sell-false'); // Применяем зеленый фон
-                    }
-
-                    // Заполняем данные
-                    priceItem.innerHTML = `
-                        <div class="price">${item.price}</div>
-                        <div class="lots">${item.lots}</div>
-                    `;
-
-                    priceListElement.appendChild(priceItem);
-                }
+                const div = document.createElement('div');
+                div.className = 'price-item';
+                div.innerHTML = `
+                    <div>${item.order_id}</div>
+                    <div>${item.price}</div>
+                    <div>${item.lots}</div>
+                `;
+                list.appendChild(div);
             });
         }
 
-        // Загружаем данные с сервера
         loadData();
     </script>
 
