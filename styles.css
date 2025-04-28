@@ -37,7 +37,7 @@ a, .back-link {
 h1 {
     font-size: 1.6em; 
     margin-bottom: 0.938em;
-    color: var(--tg-theme-text-color, #000);
+    color: var(--tg-theme-link-color, #2481cc);
 }
 
 h2 {
@@ -57,6 +57,7 @@ h3 {
     font-size: 1.2em;  /* 20px */
     margin-bottom: 0.625em;
     font-weight: bold;
+    color: var(--tg-theme-link-color, #2481cc);
 }
 
 p {
